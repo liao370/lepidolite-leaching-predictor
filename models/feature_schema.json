@@ -1,0 +1,220 @@
+{
+  "feature_names": [
+    "添加剂总质量比",
+    "品位",
+    "H2SO4",
+    "HCl",
+    "K2S2O7",
+    "KHSO4",
+    "FeSO4·7H2O",
+    "KOH",
+    "CaO",
+    "NaCl",
+    "CaCl2",
+    "SLS(木质素磺酸钠)",
+    "NaOH",
+    "Ca(OH)2",
+    "(NH4)2SO4",
+    "Na2SO4",
+    "CaSO4",
+    "CaCO3",
+    "K2SO4",
+    "NaHSO4",
+    "C",
+    "焙烧温度(℃)",
+    "焙烧时间(h)",
+    "液固比",
+    "水浸温度(℃)",
+    "水浸时间(h)"
+  ],
+  "raw_to_clean": {
+    "质量比(焙烧总添加剂:锂云母)": "添加剂总质量比",
+    "品位": "品位",
+    "H2SO4": "H2SO4",
+    "HCl": "HCl",
+    "K₂S₂O₇": "K2S2O7",
+    "KHSO4": "KHSO4",
+    "FeSO₄·7H2O": "FeSO4·7H2O",
+    "KOH": "KOH",
+    "Cao": "CaO",
+    "NaCl": "NaCl",
+    "Cacl": "CaCl2",
+    "SLS(木质素磺酸钠)": "SLS(木质素磺酸钠)",
+    "NaOH": "NaOH",
+    "Ca(OH)2": "Ca(OH)2",
+    "(NH₄)₂SO₄": "(NH4)2SO4",
+    "Na2SO4": "Na2SO4",
+    "CaSO4": "CaSO4",
+    "CaCO3": "CaCO3",
+    "K2SO4": "K2SO4",
+    "NaHSO₄": "NaHSO4",
+    "C": "C",
+    "焙烧温度(℃)": "焙烧温度(℃)",
+    "焙烧时间(h)": "焙烧时间(h)",
+    "液固比": "液固比",
+    "水浸温度(℃)": "水浸温度(℃)",
+    "水浸时间(h)": "水浸时间(h)"
+  },
+  "additives": [
+    "H2SO4",
+    "HCl",
+    "K2S2O7",
+    "KHSO4",
+    "FeSO4·7H2O",
+    "KOH",
+    "CaO",
+    "NaCl",
+    "CaCl2",
+    "SLS(木质素磺酸钠)",
+    "NaOH",
+    "Ca(OH)2",
+    "(NH4)2SO4",
+    "Na2SO4",
+    "CaSO4",
+    "CaCO3",
+    "K2SO4",
+    "NaHSO4",
+    "C"
+  ],
+  "targets": {
+    "Li": "Li浸出率(%)",
+    "Rb": "Rb浸出率(%)",
+    "Cs": "Cs浸出率(%)"
+  },
+  "ranges": {
+    "添加剂总质量比": {
+      "min": 0.0,
+      "max": 6.0,
+      "median": 1.0
+    },
+    "品位": {
+      "min": 0.0,
+      "max": 1.0,
+      "median": 0.0
+    },
+    "H2SO4": {
+      "min": 0.0,
+      "max": 1.666,
+      "median": 0.0
+    },
+    "HCl": {
+      "min": 0.0,
+      "max": 6.0,
+      "median": 0.0
+    },
+    "K2S2O7": {
+      "min": 0.0,
+      "max": 2.0,
+      "median": 0.0
+    },
+    "KHSO4": {
+      "min": 0.0,
+      "max": 0.9,
+      "median": 0.0
+    },
+    "FeSO4·7H2O": {
+      "min": 0.0,
+      "max": 3.0,
+      "median": 0.0
+    },
+    "KOH": {
+      "min": 0.0,
+      "max": 2.0,
+      "median": 0.0
+    },
+    "CaO": {
+      "min": 0.0,
+      "max": 0.6,
+      "median": 0.0
+    },
+    "NaCl": {
+      "min": 0.0,
+      "max": 2.5,
+      "median": 0.0
+    },
+    "CaCl2": {
+      "min": 0.0,
+      "max": 2.5,
+      "median": 0.0
+    },
+    "SLS(木质素磺酸钠)": {
+      "min": 0.0,
+      "max": 1.0,
+      "median": 0.0
+    },
+    "NaOH": {
+      "min": 0.0,
+      "max": 5.0,
+      "median": 0.0
+    },
+    "Ca(OH)2": {
+      "min": 0.0,
+      "max": 0.3,
+      "median": 0.0
+    },
+    "(NH4)2SO4": {
+      "min": 0.0,
+      "max": 6.0,
+      "median": 0.0
+    },
+    "Na2SO4": {
+      "min": 0.0,
+      "max": 2.5,
+      "median": 0.0
+    },
+    "CaSO4": {
+      "min": 0.0,
+      "max": 0.781,
+      "median": 0.0
+    },
+    "CaCO3": {
+      "min": 0.0,
+      "max": 0.5,
+      "median": 0.0
+    },
+    "K2SO4": {
+      "min": 0.0,
+      "max": 2.0,
+      "median": 0.0
+    },
+    "NaHSO4": {
+      "min": 0.0,
+      "max": 3.0,
+      "median": 0.0
+    },
+    "C": {
+      "min": 0.0,
+      "max": 0.1,
+      "median": 0.0
+    },
+    "焙烧温度(℃)": {
+      "min": 0.0,
+      "max": 1100.0,
+      "median": 850.0
+    },
+    "焙烧时间(h)": {
+      "min": 0.0,
+      "max": 8.0,
+      "median": 1.0
+    },
+    "液固比": {
+      "min": 1.0,
+      "max": 20.0,
+      "median": 4.0
+    },
+    "水浸温度(℃)": {
+      "min": 20.0,
+      "max": 260.0,
+      "median": 60.0
+    },
+    "水浸时间(h)": {
+      "min": 0.02,
+      "max": 24.0,
+      "median": 1.0
+    }
+  },
+  "login": {
+    "username": "admin",
+    "password_storage": "Streamlit secrets; not committed"
+  }
+}
