@@ -1,0 +1,77 @@
+{
+  "seed": 492,
+  "split": "80/20 random holdout",
+  "cross_validation": "5-fold shuffled KFold on training set",
+  "optuna_sampler": "TPE",
+  "trials_per_base_model": 10,
+  "stacking_trials": 5,
+  "best_models": {
+    "Li": {
+      "best_model": "XGBoost",
+      "holdout": {
+        "metal": "Li",
+        "model": "XGBoost",
+        "n_total": 896,
+        "n_train": 716,
+        "n_test": 180,
+        "CV_RMSE_mean": 8.98374807707392,
+        "CV_RMSE_SD": 1.9631493938330864,
+        "test_R2": 0.6837853360855268,
+        "test_RMSE": 10.590610755685807,
+        "test_MAE": 6.025447254180909,
+        "test_bias_pred_minus_obs": 0.04958331595526783
+      },
+      "external": {
+        "R2": -2.0005916282381286,
+        "RMSE": 31.648431317631278,
+        "MAE": 29.914850196533198,
+        "bias_pred_minus_obs": -28.010186541493734
+      }
+    },
+    "Rb": {
+      "best_model": "XGBoost",
+      "holdout": {
+        "metal": "Rb",
+        "model": "XGBoost",
+        "n_total": 509,
+        "n_train": 407,
+        "n_test": 102,
+        "CV_RMSE_mean": 9.186229403179059,
+        "CV_RMSE_SD": 2.1427730204983764,
+        "test_R2": 0.8873995215910399,
+        "test_RMSE": 7.640217878747273,
+        "test_MAE": 5.320381192600026,
+        "test_bias_pred_minus_obs": 0.9334164252935667
+      },
+      "external": {
+        "R2": 0.28858780064202283,
+        "RMSE": 20.772284934356232,
+        "MAE": 18.750537776603696,
+        "bias_pred_minus_obs": -11.164501634813945
+      }
+    },
+    "Cs": {
+      "best_model": "XGBoost",
+      "holdout": {
+        "metal": "Cs",
+        "model": "XGBoost",
+        "n_total": 494,
+        "n_train": 395,
+        "n_test": 99,
+        "CV_RMSE_mean": 8.707176707535186,
+        "CV_RMSE_SD": 1.954288949876469,
+        "test_R2": 0.7957225897241161,
+        "test_RMSE": 10.527365692376263,
+        "test_MAE": 5.864672517102173,
+        "test_bias_pred_minus_obs": -0.9752082377732401
+      },
+      "external": {
+        "R2": -0.9305731406295743,
+        "RMSE": 34.580895360348066,
+        "MAE": 31.5276281390508,
+        "bias_pred_minus_obs": -27.647518399518333
+      }
+    }
+  },
+  "duration_seconds": 513.2042746543884
+}

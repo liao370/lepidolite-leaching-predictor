@@ -1,74 +1,60 @@
 {
+  "version": "2026-09-04",
   "feature_names": [
-    "添加剂总质量比",
-    "品位",
+    "Li2O_pct",
+    "Rb_pct",
+    "Cs_pct",
+    "SiO2_pct",
+    "Al2O3_pct",
+    "Fe2O3_pct",
     "H2SO4",
     "HCl",
     "K2S2O7",
     "KHSO4",
-    "FeSO4·7H2O",
+    "FeSO4_7H2O",
     "KOH",
     "CaO",
     "NaCl",
     "CaCl2",
-    "SLS(木质素磺酸钠)",
+    "SLS",
     "NaOH",
-    "Ca(OH)2",
-    "(NH4)2SO4",
+    "CaOH2",
+    "NH4_2SO4",
     "Na2SO4",
     "CaSO4",
     "CaCO3",
     "K2SO4",
     "NaHSO4",
     "C",
-    "焙烧温度(℃)",
-    "焙烧时间(h)",
-    "液固比",
-    "水浸温度(℃)",
-    "水浸时间(h)"
+    "total_additive_ratio",
+    "roasting_temp_C",
+    "roasting_time_h",
+    "liquid_solid_ratio",
+    "leaching_temp_C",
+    "leaching_time_h"
   ],
-  "raw_to_clean": {
-    "质量比(焙烧总添加剂:锂云母)": "添加剂总质量比",
-    "品位": "品位",
-    "H2SO4": "H2SO4",
-    "HCl": "HCl",
-    "K₂S₂O₇": "K2S2O7",
-    "KHSO4": "KHSO4",
-    "FeSO₄·7H2O": "FeSO4·7H2O",
-    "KOH": "KOH",
-    "Cao": "CaO",
-    "NaCl": "NaCl",
-    "Cacl": "CaCl2",
-    "SLS(木质素磺酸钠)": "SLS(木质素磺酸钠)",
-    "NaOH": "NaOH",
-    "Ca(OH)2": "Ca(OH)2",
-    "(NH₄)₂SO₄": "(NH4)2SO4",
-    "Na2SO4": "Na2SO4",
-    "CaSO4": "CaSO4",
-    "CaCO3": "CaCO3",
-    "K2SO4": "K2SO4",
-    "NaHSO₄": "NaHSO4",
-    "C": "C",
-    "焙烧温度(℃)": "焙烧温度(℃)",
-    "焙烧时间(h)": "焙烧时间(h)",
-    "液固比": "液固比",
-    "水浸温度(℃)": "水浸温度(℃)",
-    "水浸时间(h)": "水浸时间(h)"
-  },
-  "additives": [
+  "composition_features": [
+    "Li2O_pct",
+    "Rb_pct",
+    "Cs_pct",
+    "SiO2_pct",
+    "Al2O3_pct",
+    "Fe2O3_pct"
+  ],
+  "additive_features": [
     "H2SO4",
     "HCl",
     "K2S2O7",
     "KHSO4",
-    "FeSO4·7H2O",
+    "FeSO4_7H2O",
     "KOH",
     "CaO",
     "NaCl",
     "CaCl2",
-    "SLS(木质素磺酸钠)",
+    "SLS",
     "NaOH",
-    "Ca(OH)2",
-    "(NH4)2SO4",
+    "CaOH2",
+    "NH4_2SO4",
     "Na2SO4",
     "CaSO4",
     "CaCO3",
@@ -76,145 +62,180 @@
     "NaHSO4",
     "C"
   ],
-  "targets": {
-    "Li": "Li浸出率(%)",
-    "Rb": "Rb浸出率(%)",
-    "Cs": "Cs浸出率(%)"
+  "process_features": [
+    "total_additive_ratio",
+    "roasting_temp_C",
+    "roasting_time_h",
+    "liquid_solid_ratio",
+    "leaching_temp_C",
+    "leaching_time_h"
+  ],
+  "target_names": {
+    "Li": "Li_leaching_pct",
+    "Rb": "Rb_leaching_pct",
+    "Cs": "Cs_leaching_pct"
   },
+  "source_header_correction": {
+    "Ru(%)": "Rb_pct",
+    "Ru含量(%)": "Rb_pct"
+  },
+  "liquid_solid_rule": "larger_side/smaller_side",
+  "external_control_rows_zeroed": 1,
   "ranges": {
-    "添加剂总质量比": {
-      "min": 0.0,
-      "max": 6.0,
-      "median": 1.0
+    "Li2O_pct": {
+      "min": 0.242,
+      "median": 1.88,
+      "max": 5.49
     },
-    "品位": {
-      "min": 0.0,
-      "max": 1.0,
-      "median": 0.0
+    "Rb_pct": {
+      "min": 0.148,
+      "median": 0.93,
+      "max": 1.73
+    },
+    "Cs_pct": {
+      "min": 0.03,
+      "median": 0.22,
+      "max": 0.71
+    },
+    "SiO2_pct": {
+      "min": 20.245,
+      "median": 49.58,
+      "max": 60.63
+    },
+    "Al2O3_pct": {
+      "min": 0.09,
+      "median": 23.73,
+      "max": 34.81
+    },
+    "Fe2O3_pct": {
+      "min": 0.05,
+      "median": 0.356,
+      "max": 8.11
     },
     "H2SO4": {
       "min": 0.0,
-      "max": 1.666,
-      "median": 0.0
+      "median": 0.0,
+      "max": 1.666
     },
     "HCl": {
       "min": 0.0,
-      "max": 6.0,
-      "median": 0.0
+      "median": 0.0,
+      "max": 6.0
     },
     "K2S2O7": {
       "min": 0.0,
-      "max": 2.0,
-      "median": 0.0
+      "median": 0.0,
+      "max": 2.0
     },
     "KHSO4": {
       "min": 0.0,
-      "max": 0.9,
-      "median": 0.0
+      "median": 0.0,
+      "max": 0.9
     },
-    "FeSO4·7H2O": {
+    "FeSO4_7H2O": {
       "min": 0.0,
-      "max": 3.0,
-      "median": 0.0
+      "median": 0.0,
+      "max": 3.0
     },
     "KOH": {
       "min": 0.0,
-      "max": 2.0,
-      "median": 0.0
+      "median": 0.0,
+      "max": 2.0
     },
     "CaO": {
       "min": 0.0,
-      "max": 0.6,
-      "median": 0.0
+      "median": 0.0,
+      "max": 0.5
     },
     "NaCl": {
       "min": 0.0,
-      "max": 2.5,
-      "median": 0.0
+      "median": 0.0,
+      "max": 2.0
     },
     "CaCl2": {
       "min": 0.0,
-      "max": 2.5,
-      "median": 0.0
+      "median": 0.0,
+      "max": 1.0
     },
-    "SLS(木质素磺酸钠)": {
+    "SLS": {
       "min": 0.0,
-      "max": 1.0,
-      "median": 0.0
+      "median": 0.0,
+      "max": 1.0
     },
     "NaOH": {
       "min": 0.0,
-      "max": 5.0,
-      "median": 0.0
+      "median": 0.0,
+      "max": 5.0
     },
-    "Ca(OH)2": {
+    "CaOH2": {
       "min": 0.0,
-      "max": 0.3,
-      "median": 0.0
+      "median": 0.0,
+      "max": 0.65
     },
-    "(NH4)2SO4": {
+    "NH4_2SO4": {
       "min": 0.0,
-      "max": 6.0,
-      "median": 0.0
+      "median": 0.0,
+      "max": 6.0
     },
     "Na2SO4": {
       "min": 0.0,
-      "max": 2.5,
-      "median": 0.0
+      "median": 0.0,
+      "max": 2.56
     },
     "CaSO4": {
       "min": 0.0,
-      "max": 0.781,
-      "median": 0.0
+      "median": 0.0,
+      "max": 0.781
     },
     "CaCO3": {
       "min": 0.0,
-      "max": 0.5,
-      "median": 0.0
+      "median": 0.0,
+      "max": 0.07
     },
     "K2SO4": {
       "min": 0.0,
-      "max": 2.0,
-      "median": 0.0
+      "median": 0.0,
+      "max": 2.0
     },
     "NaHSO4": {
       "min": 0.0,
-      "max": 3.0,
-      "median": 0.0
+      "median": 0.0,
+      "max": 3.0
     },
     "C": {
       "min": 0.0,
-      "max": 0.1,
-      "median": 0.0
+      "median": 0.0,
+      "max": 0.1
     },
-    "焙烧温度(℃)": {
+    "total_additive_ratio": {
+      "min": 0.1,
+      "median": 1.0,
+      "max": 6.0
+    },
+    "roasting_temp_C": {
       "min": 0.0,
-      "max": 1100.0,
-      "median": 850.0
+      "median": 880.0,
+      "max": 1100.0
     },
-    "焙烧时间(h)": {
+    "roasting_time_h": {
       "min": 0.0,
-      "max": 8.0,
-      "median": 1.0
+      "median": 1.0,
+      "max": 8.0
     },
-    "液固比": {
+    "liquid_solid_ratio": {
       "min": 1.0,
-      "max": 20.0,
-      "median": 4.0
+      "median": 4.0,
+      "max": 20.0
     },
-    "水浸温度(℃)": {
+    "leaching_temp_C": {
       "min": 20.0,
-      "max": 260.0,
-      "median": 60.0
+      "median": 60.0,
+      "max": 260.0
     },
-    "水浸时间(h)": {
+    "leaching_time_h": {
       "min": 0.02,
-      "max": 24.0,
-      "median": 1.0
+      "median": 1.0,
+      "max": 24.0
     }
-  },
-  "login": {
-    "username": "admin",
-    "password_storage": "Streamlit secrets; not committed"
   }
 }
