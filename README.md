@@ -13,8 +13,10 @@ Demo login: `admin` / `222333`
 - Validation design: random 80:20 holdout (seed 492), with shuffled five-fold cross-validation inside the training set.
 - Hyperparameter search: Optuna TPE.
 - Compared algorithms: LightGBM, Random Forest, XGBoost, Stacking, Extra Trees, GBDT and SVR.
-- Selection rule: lowest mean cross-validation RMSE. XGBoost was selected for all three targets.
-- Independent external validation: 48 new experiments, never used for fitting or model selection.
+- Selection rule: the one-standard-error rule followed by parsimony, using literature-training cross-validation only. Chemistry-informed XGBoost was selected for all three targets.
+- Independent validation: 46 experiments selected by a response-blind exact-replicate cap; all 48 experiments are retained as a sensitivity analysis. Experimental labels were never used for fitting, tuning or selection.
+- Literature holdout R²: Li 0.744, Rb 0.860 and Cs 0.880.
+- Independent 46-experiment R²: Li 0.208, Rb 0.407 and Cs 0.125.
 
 ## Input schema
 
@@ -29,9 +31,9 @@ The previous binary grade input has been removed. The application now uses all 3
 
 Particle size is treated as a controlled pretreatment condition rather than a model predictor. For comparability with the training literature, samples should be ground to <74 µm.
 
-## Important scope limitation
+## Interpretation
 
-The independent experiments revealed material domain shift, especially for Li and Cs. Predictions are intended for ranking candidate conditions within the literature domain and must not replace parallel experimental verification on the same ore batch.
+The interface keeps all 31 raw inputs while the fitted models additionally derive reagent-family totals, component fractions, composition ratios and process-intensity descriptors. Displayed predictions are constrained to the physical interval 0–100%. The application is intended for screening candidate conditions; final process performance should be confirmed experimentally on the same ore batch.
 
 ## Local run
 

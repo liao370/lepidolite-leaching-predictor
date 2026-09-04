@@ -1,77 +1,117 @@
 {
+  "data_file": "锂云母数据集_0904_合并版.xls",
+  "total_rows": 944,
+  "literature_records": 896,
+  "experimental_records": 48,
+  "validation46_rule": "Within each exact 31-input condition, sort by experiment id and retain at most the first three replicates; ids 938 and 944 are omitted from the primary score without reading response values or prediction errors.",
+  "validation46_n": 46,
+  "all48_sensitivity_n": 48,
+  "experimental_labels_used_for_fitting_tuning_or_selection": false,
   "seed": 492,
-  "split": "80/20 random holdout",
-  "cross_validation": "5-fold shuffled KFold on training set",
-  "optuna_sampler": "TPE",
-  "trials_per_base_model": 10,
-  "stacking_trials": 5,
+  "split": "target-specific 80:20 literature holdout",
+  "cross_validation": "5-fold shuffled KFold on the 80% literature training partition",
+  "hyperparameter_optimization": "Optuna TPE Bayesian optimization; stored parameter sets from the completed search are refitted after the corrected liquid:solid parsing",
+  "candidate_models": [
+    "LightGBM",
+    "Random Forest",
+    "XGBoost",
+    "Stacking",
+    "Extra Trees",
+    "GBDT",
+    "SVR"
+  ],
+  "selection_rule": "Choose a single learner within one standard error of the minimum 5-fold CV RMSE; prefer the parsimonious deployable model. XGBoost is selected for Li, Rb and Cs without inspecting experimental labels.",
   "best_models": {
     "Li": {
       "best_model": "XGBoost",
+      "model_variant": "XGBoost with chemistry-informed deterministic features",
       "holdout": {
         "metal": "Li",
         "model": "XGBoost",
         "n_total": 896,
         "n_train": 716,
         "n_test": 180,
-        "CV_RMSE_mean": 8.98374807707392,
-        "CV_RMSE_SD": 1.9631493938330864,
-        "test_R2": 0.6837853360855268,
-        "test_RMSE": 10.590610755685807,
-        "test_MAE": 6.025447254180909,
-        "test_bias_pred_minus_obs": 0.04958331595526783
+        "CV_R2_oof": 0.7597964520161363,
+        "CV_RMSE_mean": 8.61142172067579,
+        "CV_RMSE_SD": 1.665754018891225,
+        "test_R2": 0.744042641435835,
+        "test_RMSE": 9.414316009941036,
+        "test_MAE": 5.857175529056125,
+        "test_bias": -0.5792226295471194
       },
-      "external": {
-        "R2": -2.0005916282381286,
-        "RMSE": 31.648431317631278,
-        "MAE": 29.914850196533198,
-        "bias_pred_minus_obs": -28.010186541493734
+      "validation46": {
+        "R2": 0.207915438287393,
+        "RMSE": 16.370381524845687,
+        "MAE": 14.874790798605215,
+        "bias_pred_minus_obs": -11.488280005678924
+      },
+      "sensitivity48": {
+        "R2": 0.17501149048078957,
+        "RMSE": 16.594825573314345,
+        "MAE": 15.134519948883055,
+        "bias_pred_minus_obs": -11.889113772328693
       }
     },
     "Rb": {
       "best_model": "XGBoost",
+      "model_variant": "XGBoost with chemistry-informed deterministic features",
       "holdout": {
         "metal": "Rb",
         "model": "XGBoost",
         "n_total": 509,
         "n_train": 407,
         "n_test": 102,
-        "CV_RMSE_mean": 9.186229403179059,
-        "CV_RMSE_SD": 2.1427730204983764,
-        "test_R2": 0.8873995215910399,
-        "test_RMSE": 7.640217878747273,
-        "test_MAE": 5.320381192600026,
-        "test_bias_pred_minus_obs": 0.9334164252935667
+        "CV_R2_oof": 0.8003386256324834,
+        "CV_RMSE_mean": 9.356999258828289,
+        "CV_RMSE_SD": 1.3526855919119571,
+        "test_R2": 0.8599690968395954,
+        "test_RMSE": 8.332364238870541,
+        "test_MAE": 5.40076255087759,
+        "test_bias": 0.8200107690399764
       },
-      "external": {
-        "R2": 0.28858780064202283,
-        "RMSE": 20.772284934356232,
-        "MAE": 18.750537776603696,
-        "bias_pred_minus_obs": -11.164501634813945
+      "validation46": {
+        "R2": 0.40734154209595463,
+        "RMSE": 18.97739021431789,
+        "MAE": 13.55976085852582,
+        "bias_pred_minus_obs": 3.6685746006177813
+      },
+      "sensitivity48": {
+        "R2": 0.4194698835239913,
+        "RMSE": 18.764456698682576,
+        "MAE": 13.533591075134277,
+        "bias_pred_minus_obs": 2.9768970732116693
       }
     },
     "Cs": {
       "best_model": "XGBoost",
+      "model_variant": "XGBoost with chemistry-informed deterministic features",
       "holdout": {
         "metal": "Cs",
         "model": "XGBoost",
         "n_total": 494,
         "n_train": 395,
         "n_test": 99,
-        "CV_RMSE_mean": 8.707176707535186,
-        "CV_RMSE_SD": 1.954288949876469,
-        "test_R2": 0.7957225897241161,
-        "test_RMSE": 10.527365692376263,
-        "test_MAE": 5.864672517102173,
-        "test_bias_pred_minus_obs": -0.9752082377732401
+        "CV_R2_oof": 0.8293872918900091,
+        "CV_RMSE_mean": 8.841452480066492,
+        "CV_RMSE_SD": 1.537612996034129,
+        "test_R2": 0.8796945715035834,
+        "test_RMSE": 7.927021367858161,
+        "test_MAE": 4.856962334218652,
+        "test_bias": -0.016615140510327992
       },
-      "external": {
-        "R2": -0.9305731406295743,
-        "RMSE": 34.580895360348066,
-        "MAE": 31.5276281390508,
-        "bias_pred_minus_obs": -27.647518399518333
+      "validation46": {
+        "R2": 0.12513547837904593,
+        "RMSE": 23.310352867331787,
+        "MAE": 21.075527735409946,
+        "bias_pred_minus_obs": -11.42368640070376
+      },
+      "sensitivity48": {
+        "R2": 0.08753775317485091,
+        "RMSE": 23.773906817724736,
+        "MAE": 21.55850244382222,
+        "bias_pred_minus_obs": -12.308821164728798
       }
     }
   },
-  "duration_seconds": 513.2042746543884
+  "duration_seconds": 204.6595070362091
 }
