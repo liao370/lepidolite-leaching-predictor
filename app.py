@@ -96,8 +96,9 @@ with prediction_tab:
     if auto: st.metric(DISPLAY["total_additive_ratio"],f"{total_ratio:.3f}")
     st.markdown('<div class="step"><span class="badge">3</span><b>Roasting and water-leaching conditions</b></div><div class="note">Liquid-to-solid ratio is entered as liquid:solid (for example, 10 means 10:1).</div>',unsafe_allow_html=True)
     pdfl={"roasting_temp_C":750.,"roasting_time_h":1.5,"liquid_solid_ratio":10.,"leaching_temp_C":50.,"leaching_time_h":1.}; proc={}
+    process_names=[n for n in schema["process_features"] if n!="total_additive_ratio"]
     cols=st.columns(5)
-    for col,n in zip(cols,schema["process_features"]):
+    for col,n in zip(cols,process_names):
         r=ranges[n]; d=float(np.clip(pdfl[n],r["min"],r["max"]))
         with col,st.container(border=True): proc[n]=st.number_input(DISPLAY[n],min_value=float(r["min"]),max_value=float(r["max"]),value=d,step=1. if "temp" in n else .1,help=f"Observed range: {r['min']:g}–{r['max']:g}")
     row={f:0. for f in features}; row.update(comp); row.update(vals); row.update(proc); row["total_additive_ratio"]=total_ratio
@@ -118,10 +119,10 @@ with evidence_tab:
     st.info("Seven algorithms were ranked by mean five-fold CV RMSE within the 80% training partition. Test-set labels were not used for model selection; the 20% test partition is shown only as a final descriptive check.")
 with method_tab:
     st.subheader("Method and scope")
-    st.markdown("""- The complete 944-row workbook is the modeling pool. For each target, available rows are randomly split 80:20 into a training partition and a test partition using a fixed seed.
+    st.markdown("""- The first 896 literature records form the modeling domain. For each target, available literature rows are randomly split 80:20 into a training set and a test set using a fixed seed.
 - LightGBM, random forest, XGBoost, stacking, extremely randomized trees, GBDT and SVR are compared. Hyperparameters are taken from the Optuna-TPE search, and five-fold shuffled cross-validation is performed within the training partition.
-- Model selection uses the lowest mean CV RMSE. The selected XGBoost model is refitted using all rows available for that target before screening.
+- Model selection uses training-set cross-validation. The selected XGBoost model is refitted using all available literature records for that target before screening.
+- The final 48 workbook rows are subsequent experimental validation records. They are excluded from fitting, tuning and model selection, and their labels are reported only in the manuscript validation analysis.
 - Six measured ore-composition contents, 19 individual additive-to-ore ratios and five process descriptors are retained as raw inputs. Derived family totals, component fractions and process-severity descriptors are constructed internally.
 - Particle size is not entered because the source literature generally treats grinding as a fixed pretreatment or reports non-comparable size descriptors. Keep feed consistently below 74 μm (200 mesh) and confirm the selected condition on the same ore batch.
 - Predictions are constrained to 0–100% for display and are intended for process-condition screening, not a substitute for experimental confirmation.""")
-

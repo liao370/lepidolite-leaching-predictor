@@ -1,5 +1,5 @@
 {
-  "version": "2026-09-05-all944-train-test",
+  "version": "2026-09-04-merged-944",
   "raw_feature_names": [
     "Li2O_pct",
     "Rb_pct",
@@ -185,12 +185,12 @@
   "ranges": {
     "Li2O_pct": {
       "min": 0.242,
-      "median": 1.98,
+      "median": 1.88,
       "max": 5.49
     },
     "Rb_pct": {
       "min": 0.148,
-      "median": 0.83,
+      "median": 0.93,
       "max": 1.73
     },
     "Cs_pct": {
@@ -200,17 +200,17 @@
     },
     "SiO2_pct": {
       "min": 20.245,
-      "median": 47.7,
+      "median": 49.58,
       "max": 60.63
     },
     "Al2O3_pct": {
       "min": 0.09,
       "median": 23.73,
-      "max": 36.036
+      "max": 34.81
     },
     "Fe2O3_pct": {
       "min": 0.05,
-      "median": 0.37,
+      "median": 0.356,
       "max": 8.11
     },
     "H2SO4": {
@@ -309,13 +309,13 @@
       "max": 0.1
     },
     "total_additive_ratio": {
-      "min": 0.0,
+      "min": 0.1,
       "median": 1.0,
       "max": 6.0
     },
     "roasting_temp_C": {
       "min": 0.0,
-      "median": 850.0,
+      "median": 880.0,
       "max": 1100.0
     },
     "roasting_time_h": {
