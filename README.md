@@ -1,45 +1,28 @@
-# Lepidolite Li/Rb/Cs Leaching Predictor
+# CoreSynergy Lepidolite Li/Rb/Cs leaching predictor
 
-Public Streamlit application for screening lepidolite roasting–water-leaching conditions.
+Streamlit application for screening lepidolite roasting and water-leaching conditions.
 
-Live site: https://lepidolite-leaching-predictor.onrender.com/
+Live service target: https://lepidolite-leaching-predictor.onrender.com/
 
-Demo login: `admin` / `222333`
+Demo account: \`admin\` / \`222333\`
 
-## Model revision (2026-09-04)
+## Data and model revision
 
-- Literature dataset: 896 usable records.
-- Target-specific sample sizes: Li 896, Rb 509 and Cs 494.
-- Validation design: random 80:20 holdout (seed 492), with shuffled five-fold cross-validation inside the training set.
-- Hyperparameter search: Optuna TPE.
-- Compared algorithms: LightGBM, Random Forest, XGBoost, Stacking, Extra Trees, GBDT and SVR.
-- Selection rule: the one-standard-error rule followed by parsimony, using literature-training cross-validation only. Chemistry-informed XGBoost was selected for all three targets.
-- Independent validation: 46 experiments selected by a response-blind exact-replicate cap; all 48 experiments are retained as a sensitivity analysis. Experimental labels were never used for fitting, tuning or selection.
-- Literature holdout R²: Li 0.744, Rb 0.860 and Cs 0.880.
-- Independent 46-experiment R²: Li 0.208, Rb 0.407 and Cs 0.125.
-
-## Input schema
-
-The previous binary grade input has been removed. The application now uses all 31 predictors:
-
-- 6 ore-composition descriptors: Li2O, Rb, Cs, SiO2, Al2O3 and Fe2O3 contents;
-- 19 individual additive-to-ore ratios;
-- total additive-to-ore ratio;
-- roasting temperature and time;
-- liquid-to-solid ratio;
-- water-leaching temperature and time.
-
-Particle size is treated as a controlled pretreatment condition rather than a model predictor. For comparability with the training literature, samples should be ground to <74 µm.
-
-## Interpretation
-
-The interface keeps all 31 raw inputs while the fitted models additionally derive reagent-family totals, component fractions, composition ratios and process-intensity descriptors. Displayed predictions are constrained to the physical interval 0–100%. The application is intended for screening candidate conditions; final process performance should be confirmed experimentally on the same ore batch.
+- Complete workbook: 944 rows used as the modeling pool.
+- Target-specific 80:20 training/test partitions: Li 755/189, Rb 445/112, Cs 433/109.
+- Five-fold shuffled cross-validation is performed within each training partition.
+- Compared algorithms: LightGBM, random forest, XGBoost, stacking, extremely randomized trees, GBDT and SVR.
+- Hyperparameters were selected with Optuna-TPE. The model-selection criterion is mean five-fold CV RMSE; test-set labels are not used for selection.
+- XGBoost is selected for Li, Rb and Cs by the CV criterion and then refitted on all available rows for deployment.
+- Raw inputs: six ore-composition contents, 19 individual additive-to-ore ratios, total additive-to-ore ratio, roasting temperature/time, liquid-to-solid ratio and water-leaching temperature/time.
+- Particle size is a controlled pretreatment condition rather than a predictor; keep feed consistently below 74 μm (200 mesh) when applying the model.
 
 ## Local run
 
-```bash
+\`\`\`bash
 pip install -r requirements.txt
 streamlit run app.py
-```
+\`\`\`
 
-The public shared credentials are the defaults. For a private deployment, set `APP_USERNAME` and `APP_PASSWORD` as environment variables or configure `.streamlit/secrets.toml`.
+Set \`APP_USERNAME\` and \`APP_PASSWORD\` for a private deployment. The default demo credentials are for demonstration only.
+
