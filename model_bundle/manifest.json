@@ -1,0 +1,434 @@
+{
+  "run_id": "all944_optuna_tpe_seed492",
+  "dataset_source": "D:\\锂云母数据集.xls",
+  "modeling_rows": 944,
+  "external_rows": 6,
+  "raw_feature_names": [
+    "Total_ratio",
+    "Li2O",
+    "Rb",
+    "Cs",
+    "SiO2",
+    "Al2O3",
+    "Fe2O3",
+    "H2SO4",
+    "HCl",
+    "K2S2O7",
+    "KHSO4",
+    "FeSO4_7H2O",
+    "KOH",
+    "CaO",
+    "NaCl",
+    "CaCl2",
+    "SLS",
+    "NaOH",
+    "CaOH2",
+    "NH4_2SO4",
+    "Na2SO4",
+    "CaSO4",
+    "CaCO3",
+    "K2SO4",
+    "NaHSO4",
+    "C",
+    "Roast_temp",
+    "Roast_time",
+    "Liquid_solid",
+    "Leach_temp",
+    "Leach_time"
+  ],
+  "feature_names": [
+    "Total_ratio",
+    "Li2O",
+    "Rb",
+    "Cs",
+    "SiO2",
+    "Al2O3",
+    "Fe2O3",
+    "H2SO4",
+    "HCl",
+    "K2S2O7",
+    "KHSO4",
+    "FeSO4_7H2O",
+    "KOH",
+    "CaO",
+    "NaCl",
+    "CaCl2",
+    "SLS",
+    "NaOH",
+    "CaOH2",
+    "NH4_2SO4",
+    "Na2SO4",
+    "CaSO4",
+    "CaCO3",
+    "K2SO4",
+    "NaHSO4",
+    "C",
+    "Roast_temp",
+    "Roast_time",
+    "Liquid_solid",
+    "Leach_temp",
+    "Leach_time",
+    "Additive_sum",
+    "Additive_count",
+    "Single_system",
+    "Combined_system",
+    "H2SO4_fraction",
+    "HCl_fraction",
+    "K2S2O7_fraction",
+    "KHSO4_fraction",
+    "FeSO4_7H2O_fraction",
+    "KOH_fraction",
+    "CaO_fraction",
+    "NaCl_fraction",
+    "CaCl2_fraction",
+    "SLS_fraction",
+    "NaOH_fraction",
+    "CaOH2_fraction",
+    "NH4_2SO4_fraction",
+    "Na2SO4_fraction",
+    "CaSO4_fraction",
+    "CaCO3_fraction",
+    "K2SO4_fraction",
+    "NaHSO4_fraction",
+    "C_fraction",
+    "Sulfate_sum",
+    "Chloride_sum",
+    "Alkaline_sum",
+    "Calcium_sum",
+    "Acid_sum",
+    "Sodium_sum",
+    "Potassium_sum",
+    "Roast_intensity",
+    "Leach_intensity",
+    "Liquid_time",
+    "Li_Al_ratio",
+    "Si_Al_ratio",
+    "Fe_Al_ratio",
+    "Dose_roast",
+    "Dose_leach",
+    "Roast_leach"
+  ],
+  "ranges": {
+    "Total_ratio": {
+      "min": 0.0,
+      "max": 6.0,
+      "median": 1.0
+    },
+    "Li2O": {
+      "min": 0.242,
+      "max": 5.49,
+      "median": 1.98
+    },
+    "Rb": {
+      "min": 0.148,
+      "max": 1.73,
+      "median": 0.83
+    },
+    "Cs": {
+      "min": 0.03,
+      "max": 0.71,
+      "median": 0.22
+    },
+    "SiO2": {
+      "min": 20.245,
+      "max": 60.63,
+      "median": 47.7
+    },
+    "Al2O3": {
+      "min": 0.299,
+      "max": 36.036,
+      "median": 23.73
+    },
+    "Fe2O3": {
+      "min": 0.05,
+      "max": 8.11,
+      "median": 0.37
+    },
+    "H2SO4": {
+      "min": 0.0,
+      "max": 1.666,
+      "median": 0.0
+    },
+    "HCl": {
+      "min": 0.0,
+      "max": 6.0,
+      "median": 0.0
+    },
+    "K2S2O7": {
+      "min": 0.0,
+      "max": 2.0,
+      "median": 0.0
+    },
+    "KHSO4": {
+      "min": 0.0,
+      "max": 0.9,
+      "median": 0.0
+    },
+    "FeSO4_7H2O": {
+      "min": 0.0,
+      "max": 3.0,
+      "median": 0.0
+    },
+    "KOH": {
+      "min": 0.0,
+      "max": 2.0,
+      "median": 0.0
+    },
+    "CaO": {
+      "min": 0.0,
+      "max": 0.5,
+      "median": 0.0
+    },
+    "NaCl": {
+      "min": 0.0,
+      "max": 2.0,
+      "median": 0.0
+    },
+    "CaCl2": {
+      "min": 0.0,
+      "max": 1.0,
+      "median": 0.0
+    },
+    "SLS": {
+      "min": 0.0,
+      "max": 1.0,
+      "median": 0.0
+    },
+    "NaOH": {
+      "min": 0.0,
+      "max": 5.0,
+      "median": 0.0
+    },
+    "CaOH2": {
+      "min": 0.0,
+      "max": 0.65,
+      "median": 0.0
+    },
+    "NH4_2SO4": {
+      "min": 0.0,
+      "max": 6.0,
+      "median": 0.0
+    },
+    "Na2SO4": {
+      "min": 0.0,
+      "max": 2.56,
+      "median": 0.0
+    },
+    "CaSO4": {
+      "min": 0.0,
+      "max": 0.781,
+      "median": 0.0
+    },
+    "CaCO3": {
+      "min": 0.0,
+      "max": 0.07,
+      "median": 0.0
+    },
+    "K2SO4": {
+      "min": 0.0,
+      "max": 2.0,
+      "median": 0.0
+    },
+    "NaHSO4": {
+      "min": 0.0,
+      "max": 3.0,
+      "median": 0.0
+    },
+    "C": {
+      "min": 0.0,
+      "max": 0.1,
+      "median": 0.0
+    },
+    "Roast_temp": {
+      "min": 0.0,
+      "max": 1100.0,
+      "median": 850.0
+    },
+    "Roast_time": {
+      "min": 0.0,
+      "max": 8.0,
+      "median": 1.0
+    },
+    "Liquid_solid": {
+      "min": 0.8,
+      "max": 20.0,
+      "median": 4.0
+    },
+    "Leach_temp": {
+      "min": 20.0,
+      "max": 260.0,
+      "median": 60.0
+    },
+    "Leach_time": {
+      "min": 0.02,
+      "max": 24.0,
+      "median": 1.0
+    }
+  },
+  "best_models": {
+    "Li": {
+      "algorithm": "Stacking",
+      "train": {
+        "n": 755,
+        "r2": 0.9845568282219008,
+        "rmse": 2.2399834036567126
+      },
+      "test": {
+        "n": 189,
+        "r2": 0.8475319347628725,
+        "rmse": 7.00890238470539,
+        "mae": 3.738427527290696
+      },
+      "cv": {
+        "r2_mean": 0.7141072815865777,
+        "r2_sd": 0.0732542479271249,
+        "rmse_mean": 9.53834458689509,
+        "rmse_sd": 1.1206879173392046
+      },
+      "optuna_trials": 15,
+      "optuna_best_cv_rmse": 9.53834458689509,
+      "best_parameters": {
+        "stack_extra_features": 0.5235492146138577,
+        "stack_extra_leaf": 1,
+        "stack_extra_n": 77,
+        "stack_rf_features": 0.9984392860598212,
+        "stack_rf_leaf": 1,
+        "stack_rf_n": 139,
+        "stack_ridge_alpha": 0.0012178902724678136,
+        "stack_svr_C": 3.9510146364008967,
+        "stack_svr_epsilon": 0.060234703677200296
+      },
+      "deployment_fit_n": 944
+    },
+    "Rb": {
+      "algorithm": "GBDT",
+      "train": {
+        "n": 445,
+        "r2": 0.9624505198795983,
+        "rmse": 4.098425761158223
+      },
+      "test": {
+        "n": 112,
+        "r2": 0.8819433227408056,
+        "rmse": 8.241278760822098,
+        "mae": 4.776509505892663
+      },
+      "cv": {
+        "r2_mean": 0.8127695074145537,
+        "r2_sd": 0.04759530617362478,
+        "rmse_mean": 8.985334068419053,
+        "rmse_sd": 1.4730501685801685
+      },
+      "optuna_trials": 15,
+      "optuna_best_cv_rmse": 8.985334068419053,
+      "best_parameters": {
+        "gbdt_learning_rate": 0.10209823259981458,
+        "gbdt_max_depth": 5,
+        "gbdt_min_samples_leaf": 4,
+        "gbdt_n_estimators": 144,
+        "gbdt_subsample": 0.8942542986276372
+      },
+      "deployment_fit_n": 557
+    },
+    "Cs": {
+      "algorithm": "XGBoost",
+      "train": {
+        "n": 433,
+        "r2": 0.9889931795028849,
+        "rmse": 2.404447532368881
+      },
+      "test": {
+        "n": 109,
+        "r2": 0.8186732309985267,
+        "rmse": 8.24364496814838,
+        "mae": 5.078345657471823
+      },
+      "cv": {
+        "r2_mean": 0.8231835201315747,
+        "r2_sd": 0.04809567032514636,
+        "rmse_mean": 9.390770852260735,
+        "rmse_sd": 1.7036760973012977
+      },
+      "optuna_trials": 15,
+      "optuna_best_cv_rmse": 9.390770852260735,
+      "best_parameters": {
+        "xgb_colsample_bytree": 0.9470983791097696,
+        "xgb_learning_rate": 0.06938586259932492,
+        "xgb_max_depth": 5,
+        "xgb_min_child_weight": 1.4214929286508438,
+        "xgb_n_estimators": 283,
+        "xgb_reg_lambda": 0.0014183375340295458,
+        "xgb_subsample": 0.7071691208710568
+      },
+      "deployment_fit_n": 542
+    }
+  },
+  "optuna": {
+    "sampler": "TPESampler",
+    "objective": "mean five-fold CV RMSE on training partition",
+    "n_trials_per_algorithm": 15,
+    "seed": 492
+  },
+  "main_pdp_features": [
+    "Combined_system",
+    "Additive_count",
+    "Dose_leach",
+    "Roast_temp",
+    "Dose_roast",
+    "Sulfate_sum",
+    "Single_system",
+    "Chloride_sum",
+    "Roast_intensity",
+    "Calcium_sum",
+    "Leach_intensity",
+    "Liquid_time"
+  ],
+  "data_audit": [
+    {
+      "Item": "Worksheet populated rows",
+      "Value": 944
+    },
+    {
+      "Item": "Serial-number minimum",
+      "Value": 0
+    },
+    {
+      "Item": "Serial-number maximum",
+      "Value": 946
+    },
+    {
+      "Item": "Unique serial numbers",
+      "Value": 944
+    },
+    {
+      "Item": "Missing serial numbers",
+      "Value": "352, 354, 406"
+    },
+    {
+      "Item": "Duplicate serial numbers",
+      "Value": 0
+    },
+    {
+      "Item": "Li valid labels",
+      "Value": 944
+    },
+    {
+      "Item": "Rb valid labels",
+      "Value": 557
+    },
+    {
+      "Item": "Cs valid labels",
+      "Value": 542
+    },
+    {
+      "Item": "External experiment rows",
+      "Value": 6
+    }
+  ],
+  "note": "The worksheet contains 944 populated records within serial range 0–946 (missing 352, 354 and 406); all populated rows were retained. Target-specific 80:20 splits and training-only Optuna-TPE five-fold optimization were used; the separate experimental workbook was withheld for validation.",
+  "model_sha256": {
+    "Li": "181e317fdd3e32a2b4b95c0650c61e5900381798f66791d61236ec8d03bad3d7",
+    "Rb": "2f051ab799fdd8cd22f616b127b1453132e3bdaed0b6ec1a1d5d87b1a89d01e2",
+    "Cs": "c04bb04b430d661d46c803d2ab6ad2f2f9681816fea745865cf6b09c6a77ae9c"
+  }
+}

@@ -1,28 +1,29 @@
-# CoreSynergy Lepidolite Li/Rb/Cs leaching predictor
+# Lepidolite Li/Rb/Cs predictor
 
-Streamlit application for screening lepidolite roasting and water-leaching conditions.
+This Streamlit service is the deployment bundle generated from the complete
+lepidolite literature workbook. It retains all 944 populated records and uses
+target-specific 80:20 splits, training-only five-fold cross-validation and
+Optuna-TPE selection across seven regressors.
 
-Live service: https://lepidolite-leaching-predictor.onrender.com/
+## Current model bundle
 
-Demo account: `admin` / `222333`
+| Target | Selected model | Training CV R² | Test R² | Deployment fit |
+|---|---|---:|---:|---:|
+| Li | Stacking | 0.714 | 0.848 | 944 rows |
+| Rb | GBDT | 0.813 | 0.882 | 557 rows |
+| Cs | XGBoost | 0.823 | 0.819 | 542 rows |
 
-## Data and model revision
+The sidebar intentionally shows only the five-fold training CV R² and the
+held-out test R². The model bundle manifest records the full provenance,
+feature ranges and hashes.
 
-- Records 1–896 are the literature modeling domain. The final 48 rows are subsequent experimental validation records and are excluded from fitting, tuning and model selection.
-- Target-specific 80:20 training/test partitions: Li 716/180, Rb 407/102 and Cs 395/99.
-- Five-fold shuffled cross-validation is performed within each training set.
-- Compared algorithms: LightGBM, random forest, XGBoost, stacking, extremely randomized trees, GBDT and SVR.
-- Hyperparameters were optimized with Optuna-TPE. Model selection uses training-set cross-validation; test-set and experimental-validation labels are not used for selection.
-- XGBoost is selected for Li, Rb and Cs and then refitted on all available literature records for deployment.
-- Raw inputs: six ore-composition contents, 19 individual additive-to-ore ratios, total additive-to-ore ratio, roasting temperature/time, liquid-to-solid ratio and water-leaching temperature/time.
-- Particle size is a controlled pretreatment condition rather than a predictor; keep feed consistently below 74 μm (200 mesh) when applying the model.
+## Run
 
-## Local run
-
-```bash
+```text
 pip install -r requirements.txt
 streamlit run app.py
 ```
 
-Set `APP_USERNAME` and `APP_PASSWORD` for a private deployment. The default demo credentials are for demonstration only.
-
+The Render service uses `render.yaml`; `APP_USERNAME` and `APP_PASSWORD` are
+provided as service environment variables. The six independent experimental
+records are held out from training and are used only for external validation.
