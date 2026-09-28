@@ -98,7 +98,7 @@ if not st.session_state.get("authenticated", False):
 try:
     manifest_path = MODEL_DIR / "manifest.json"
     manifest_hash = hashlib.sha256(manifest_path.read_bytes()).hexdigest()
-    manifest, models = assets(str(MODEL_DIR), manifest_hash)
+    manifest, models, uncertainty_models = assets(str(MODEL_DIR), manifest_hash)
     evidence = evidence_table(manifest)
 except (FileNotFoundError, ValueError, KeyError, ImportError) as error:
     hero()
@@ -176,7 +176,7 @@ with prediction_tab:
     st.subheader("4 · Predict Li, Rb and Cs recoveries")
     if st.button("Run prediction", type="primary", use_container_width=True):
         try:
-            st.session_state.prediction_result = predict_frame(raw, models, manifest)
+            st.session_state.prediction_result = predict_frame(raw, models, manifest, uncertainty_models)
             st.session_state.prediction_input_hash = fingerprint
         except ValueError as error:
             st.error(str(error))
@@ -185,14 +185,23 @@ with prediction_tab:
         for column, metal in zip(st.columns(3), METALS):
             prediction = saved.iloc[0][f"{metal}_predicted_display_pct"]
             raw_prediction = saved.iloc[0][f"{metal}_predicted_raw_pct"]
+            lower = saved.iloc[0][f"{metal}_pi_lower_pct"]
+            upper = saved.iloc[0][f"{metal}_pi_upper_pct"]
+            sd = saved.iloc[0][f"{metal}_ensemble_sd_pp"]
+            confidence = saved.iloc[0][f"{metal}_confidence_flag"]
             algorithm = manifest["best_models"][metal]["algorithm"]
             with column:
                 st.markdown(f'<div class="result"><div class="label">{metal} predicted recovery</div>'
                             f'<div class="value" style="color:{COLORS[metal]}">{prediction:.2f}%</div>'
                             f'<div class="algorithm">Selected algorithm: {html.escape(algorithm)}<br>'
+                            f'95% PI: {lower:.2f}–{upper:.2f}%<br>'
+                            f'Ensemble SD: {sd:.2f} pp<br>'
+                            f'<span style="color:{"#a33b32" if str(confidence).startswith("Low confidence") else "#39735c"}">{html.escape(str(confidence))}</span><br>'
                             f'Raw prediction: {raw_prediction:.2f}%</div></div>', unsafe_allow_html=True)
                 st.progress(float(prediction) / 100)
-        st.caption("Cards are limited to 0–100% for display. Raw, unbounded predictions are preserved in the CSV and used for evaluation.")
+        if saved["confidence_flag"].eq("Low confidence").any():
+            st.warning("Low-confidence warning: at least one target has high ensemble variance, a wide prediction interval, or an input outside the observed modeling-data domain. Confirm the condition with a repeat experiment.")
+        st.caption("Prediction intervals use five-fold ensemble variance combined with out-of-fold RMSE. Cards are limited to 0–100% for display; raw predictions and interval diagnostics are preserved in the CSV.")
         st.download_button("Download inputs and predictions (CSV)", csv_bytes(saved), "lepidolite_prediction.csv", "text/csv")
     elif saved is not None:
         st.info("Inputs have changed. Run prediction to update the results.")
@@ -214,14 +223,19 @@ with batch_tab:
                 batch = pd.read_csv(io.BytesIO(payload))
                 if len(batch) > 10000:
                     raise ValueError("Please limit one comparison to 10,000 rows.")
-                predictions = predict_frame(batch, models, manifest)
+                predictions = predict_frame(batch, models, manifest, uncertainty_models)
                 keep = [key for key in ["Ore_ID", "Formulation_ID"] if key in predictions]
                 keep += [f"{metal}_predicted_raw_pct" for metal in METALS]
-                keep += ["additive_system", "outside_observed_range", "total_minus_components"]
+                keep += [f"{metal}_pi_lower_pct" for metal in METALS]
+                keep += [f"{metal}_pi_upper_pct" for metal in METALS]
+                keep += [f"{metal}_ensemble_sd_pp" for metal in METALS]
+                keep += [f"{metal}_confidence_flag" for metal in METALS]
+                keep += ["confidence_flag", "additive_system", "outside_observed_range", "total_minus_components"]
                 st.dataframe(predictions[keep], hide_index=True, use_container_width=True)
                 outside = predictions["outside_observed_range"].ne("").sum()
-                if outside:
-                    st.warning(f"{outside} sample(s) contain inputs outside the observed range. See the flagged columns before interpreting differences between ore samples.")
+                low_conf = predictions["confidence_flag"].eq("Low confidence").sum()
+                if outside or low_conf:
+                    st.warning(f"{low_conf} sample(s) are low-confidence and {outside} sample(s) contain inputs outside the observed range. See the interval and flag columns before interpreting differences between ore samples.")
                 st.download_button("Download all inputs, audit flags and predictions", csv_bytes(predictions), "ore_comparison_predictions.csv", "text/csv")
                 st.caption("Uploaded rows are used only for prediction. They do not alter model fitting, tuning or selection.")
             except (ValueError, pd.errors.ParserError, UnicodeError) as error:
@@ -231,8 +245,8 @@ with evidence_tab:
     st.subheader("Selected-model performance")
     st.dataframe(evidence, hide_index=True, use_container_width=True)
     st.download_button("Download full performance table", csv_bytes(evidence), "selected_model_performance.csv", "text/csv")
-    st.caption("RMSE is in percentage points (pp). CV statistics use held-out training folds. All reported performance uses raw predictions before display clipping.")
-    st.info("Algorithms and hyperparameters were selected using five-fold cross-validation within the training partition. The 20% test partition and separate experimental workbook were excluded from tuning and model selection.")
+    st.caption("RMSE is in percentage points (pp). CV statistics use held-out training folds. Prediction intervals use five-fold ensemble variance plus out-of-fold RMSE; all reported performance uses raw predictions before display clipping.")
+    st.info("Algorithms and hyperparameters were selected using five-fold cross-validation within the training partition. Prediction intervals are generated from five deployment-fold models and calibrated with out-of-fold RMSE. The 20% test partition and separate experimental workbook were excluded from tuning and model selection.")
     with st.expander("Model provenance and input ranges"):
         provenance = {key: value for key, value in manifest.items() if key not in {"ranges", "best_models", "raw_feature_names"}}
         st.json(provenance)
@@ -250,11 +264,11 @@ with method_tab:
 - The separate experimental workbook (**{external_n} experimental records**) is reserved for external validation across ore samples. It is excluded from fitting, tuning and selection.
 - Six ore-composition contents, 19 additive component ratios, the total additive ratio and five process conditions are retained. Feature transformation uses the same module as model training.
 - Total additive ratio is calculated from the component doses by default. An explicit override preserves any discrepancy for traceability.
-- Model evaluation uses raw predictions. Display cards alone are limited to 0–100%. An out-of-range input flag reports extrapolation; it is not a quantitative uncertainty interval.
+    - Model evaluation uses raw predictions. Display cards alone are limited to 0–100%. The GUI reports a 95% prediction interval from five-fold ensemble variance plus out-of-fold RMSE, the ensemble SD, interval width, and a low-confidence flag.
 - Random record-level generalization and cross-ore generalization are different tests. Grouping identical inputs prevents duplicate leakage, but does not replace leave-study-out or prospective validation.
 """)
     fits = [f"{metal}: {manifest['best_models'][metal].get('deployment_fit_n', 'see manifest')} records"
             for metal in METALS]
     st.write("Deployment fitting set — " + "; ".join(fits) + ".")
-    st.caption("For candidate-condition screening. Experimental confirmation on the intended ore sample remains the basis for process decisions.")
+    st.caption("For candidate-condition screening. A low-confidence warning is raised for domain extrapolation, high ensemble variance, or an unusually wide interval. Experimental confirmation on the intended ore sample remains the basis for process decisions.")
 

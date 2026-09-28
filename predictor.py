@@ -48,7 +48,17 @@ def load_bundle(directory: Path):
         if expected and sha256_file(path) != expected:
             raise ValueError(f"{metal} model checksum does not match the manifest.")
         models[metal] = joblib.load(path)
-    return manifest, models
+    uncertainty_models = {metal: [] for metal in METALS}
+    for metal in METALS:
+        for relative in manifest.get("uncertainty", {}).get(metal, {}).get("models", []):
+            path = directory / relative
+            if not path.is_file():
+                raise ValueError(f"Uncertainty model is missing: {relative}")
+            expected = manifest.get("uncertainty_model_sha256", {}).get(path.name)
+            if expected and sha256_file(path) != expected:
+                raise ValueError(f"Uncertainty model checksum does not match the manifest: {relative}")
+            uncertainty_models[metal].append(joblib.load(path))
+    return manifest, models, uncertainty_models
 
 
 def validate_frame(frame: pd.DataFrame) -> pd.DataFrame:
@@ -88,7 +98,7 @@ def audit_frame(raw: pd.DataFrame, ranges: dict) -> pd.DataFrame:
     }, index=raw.index)
 
 
-def predict_frame(frame: pd.DataFrame, models: dict, manifest: dict) -> pd.DataFrame:
+def predict_frame(frame: pd.DataFrame, models: dict, manifest: dict, uncertainty_models: dict | None = None) -> pd.DataFrame:
     raw = validate_frame(frame)
     result = frame.copy()
     for metal in METALS:
@@ -97,8 +107,42 @@ def predict_frame(frame: pd.DataFrame, models: dict, manifest: dict) -> pd.DataF
             raise ValueError(f"{metal} model returned invalid predictions.")
         result[f"{metal}_predicted_raw_pct"] = predicted
         result[f"{metal}_predicted_display_pct"] = predicted.clip(0, 100)
+        info = manifest.get("uncertainty", {}).get(metal, {})
+        ensemble = (uncertainty_models or {}).get(metal, [])
+        if ensemble:
+            ensemble_predictions = np.vstack([np.asarray(model.predict(raw), dtype=float).reshape(-1) for model in ensemble])
+            ensemble_mean = ensemble_predictions.mean(axis=0)
+            ensemble_sd = ensemble_predictions.std(axis=0, ddof=1) if len(ensemble_predictions) > 1 else np.zeros(len(raw))
+            rmse = float(info.get("rmse_calibration_pp", manifest["best_models"][metal]["test"]["rmse"]))
+            half_width = 1.96 * np.sqrt(rmse**2 + ensemble_sd**2)
+            lower = np.clip(predicted - half_width, 0, 100)
+            upper = np.clip(predicted + half_width, 0, 100)
+            sd_threshold = float(info.get("ensemble_sd_p95_pp", np.inf))
+            width_threshold = float(info.get("interval_width_p95_pp", np.inf))
+            width = upper - lower
+            result[f"{metal}_ensemble_mean_pct"] = ensemble_mean
+            result[f"{metal}_ensemble_sd_pp"] = ensemble_sd
+            result[f"{metal}_pi_lower_pct"] = lower
+            result[f"{metal}_pi_upper_pct"] = upper
+            result[f"{metal}_pi_width_pp"] = width
+            result[f"{metal}_confidence_flag"] = np.where((ensemble_sd > sd_threshold) | (width > width_threshold), "Low confidence", "Within calibration")
+        else:
+            rmse = float(info.get("rmse_calibration_pp", manifest["best_models"][metal]["test"]["rmse"]))
+            result[f"{metal}_ensemble_mean_pct"] = predicted
+            result[f"{metal}_ensemble_sd_pp"] = np.nan
+            result[f"{metal}_pi_lower_pct"] = np.clip(predicted - 1.96 * rmse, 0, 100)
+            result[f"{metal}_pi_upper_pct"] = np.clip(predicted + 1.96 * rmse, 0, 100)
+            result[f"{metal}_pi_width_pp"] = result[f"{metal}_pi_upper_pct"] - result[f"{metal}_pi_lower_pct"]
+            result[f"{metal}_confidence_flag"] = "Calibration fallback"
     for name, column in audit_frame(raw, manifest["ranges"]).items():
         result[name] = column
+    outside = result["outside_observed_range"].astype(str).ne("")
+    if outside.any():
+        for metal in METALS:
+            result.loc[outside, f"{metal}_confidence_flag"] = "Low confidence: domain extrapolation"
+    flags = [f"{metal}_confidence_flag" for metal in METALS]
+    result["confidence_flag"] = np.where(result[flags].apply(lambda row: any(str(v).startswith("Low confidence") for v in row), axis=1), "Low confidence", "Within calibration")
+    result["prediction_interval_method"] = manifest.get("uncertainty_note", "Calibration interval")
     result["model_run_id"] = manifest.get("run_id", "")
     result["dataset_sha256"] = manifest.get("dataset_sha256", "")
     return result

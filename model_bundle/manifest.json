@@ -430,5 +430,85 @@
     "Li": "181e317fdd3e32a2b4b95c0650c61e5900381798f66791d61236ec8d03bad3d7",
     "Rb": "2f051ab799fdd8cd22f616b127b1453132e3bdaed0b6ec1a1d5d87b1a89d01e2",
     "Cs": "c04bb04b430d661d46c803d2ab6ad2f2f9681816fea745865cf6b09c6a77ae9c"
-  }
+  },
+  "uncertainty": {
+    "Li": {
+      "method": "five-fold ensemble variance",
+      "confidence_level": 0.95,
+      "folds": 5,
+      "rmse_calibration_pp": 12.973971119510704,
+      "ensemble_sd_p50_pp": 1.4453169159626615,
+      "ensemble_sd_p90_pp": 3.883497071578708,
+      "ensemble_sd_p95_pp": 5.055066660438545,
+      "interval_width_p95_pp": 54.58206556801641,
+      "training_n": 944,
+      "models": [
+        "uncertainty_models/Li_fold1.joblib",
+        "uncertainty_models/Li_fold2.joblib",
+        "uncertainty_models/Li_fold3.joblib",
+        "uncertainty_models/Li_fold4.joblib",
+        "uncertainty_models/Li_fold5.joblib"
+      ],
+      "ensemble_oof_rmse_pp": 12.973971119510704,
+      "ensemble_oof_mae_pp": 8.475335696861649
+    },
+    "Rb": {
+      "method": "five-fold ensemble variance",
+      "confidence_level": 0.95,
+      "folds": 5,
+      "rmse_calibration_pp": 8.841156199844328,
+      "ensemble_sd_p50_pp": 1.2715523470608703,
+      "ensemble_sd_p90_pp": 4.799386184528229,
+      "ensemble_sd_p95_pp": 6.902008118760355,
+      "interval_width_p95_pp": 43.96764009561575,
+      "training_n": 557,
+      "models": [
+        "uncertainty_models/Rb_fold1.joblib",
+        "uncertainty_models/Rb_fold2.joblib",
+        "uncertainty_models/Rb_fold3.joblib",
+        "uncertainty_models/Rb_fold4.joblib",
+        "uncertainty_models/Rb_fold5.joblib"
+      ],
+      "ensemble_oof_rmse_pp": 8.841156199844328,
+      "ensemble_oof_mae_pp": 5.401207660311792
+    },
+    "Cs": {
+      "method": "five-fold ensemble variance",
+      "confidence_level": 0.95,
+      "folds": 5,
+      "rmse_calibration_pp": 9.851360721049524,
+      "ensemble_sd_p50_pp": 1.1763710975646973,
+      "ensemble_sd_p90_pp": 5.277350425720215,
+      "ensemble_sd_p95_pp": 8.83033275604248,
+      "interval_width_p95_pp": 51.86037063598633,
+      "training_n": 542,
+      "models": [
+        "uncertainty_models/Cs_fold1.joblib",
+        "uncertainty_models/Cs_fold2.joblib",
+        "uncertainty_models/Cs_fold3.joblib",
+        "uncertainty_models/Cs_fold4.joblib",
+        "uncertainty_models/Cs_fold5.joblib"
+      ],
+      "ensemble_oof_rmse_pp": 9.851360721049524,
+      "ensemble_oof_mae_pp": 5.700928529277956
+    }
+  },
+  "uncertainty_model_sha256": {
+    "Cs_fold1.joblib": "03ef1bfa8bb0bfb7051d029d021c0aad59754b462646f342cf600fc7d3c6236a",
+    "Cs_fold2.joblib": "b9533abff96b37e784a60e168bb3d39bc0a370a31dda20bd9ca8b90f12604c0e",
+    "Cs_fold3.joblib": "51fca7ebbf52da5bab76c1fac6d234110c16eee0eebcbdc7fc253982880a7a03",
+    "Cs_fold4.joblib": "d86dbb09d42eddaffb1362f2a84e9063e13a3dde2ea5b6ace5d458754a922d30",
+    "Cs_fold5.joblib": "324d80d97df2e53fb8a680ef74acb472241f36a309d5a60ddf519b10833072fa",
+    "Li_fold1.joblib": "c58f1b4115fa19a790f870ea022567fd912aafb4d02fea81611ba40788bc7cf7",
+    "Li_fold2.joblib": "6279a63d020bee175cceba56be242b6288766c69628eefc1c3fa91aae175c387",
+    "Li_fold3.joblib": "caea50dd4b1f4be616126d5fc015c4811c625b4073fd4183fec6a55451f7df5f",
+    "Li_fold4.joblib": "35ee5513fd72a5416806160d6d25a0ebc690743f5e596ba44fbd1692e3a50f02",
+    "Li_fold5.joblib": "2fac70010bdc536518b12446f0ab89b902a759226a8bb11c6c9d0a70ecb29332",
+    "Rb_fold1.joblib": "df2e6dcdde2edbe223556e692e61df1db3b177a6733c949e73780381d230b4a3",
+    "Rb_fold2.joblib": "523372bf566139176c3c3e760571eff092e7215ace10ab138a17d12e37948447",
+    "Rb_fold3.joblib": "90e2ccab516fd6c777108ae912ffcf596ab61c1e3efdf1fca2ca7cfb68726d98",
+    "Rb_fold4.joblib": "e6bd27394ca2a17dffa25576c5fae51e7c423c6c8d66f46a953cb1d2fb1910d1",
+    "Rb_fold5.joblib": "83205e308813cf572617b5fd6f1ed00c9f15392ec0bc97b07b1401d7174d507f"
+  },
+  "uncertainty_note": "Prediction intervals combine five-fold ensemble variance with out-of-fold RMSE: y_hat ± 1.96*sqrt(RMSE_OOF² + SD_ensemble²). Low-confidence warnings are triggered by domain extrapolation, high ensemble SD, or wide intervals."
 }
